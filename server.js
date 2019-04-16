@@ -5,6 +5,7 @@ const port = 6000;
 const keys = require('./config/keys')
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const session = require('express-session');
 
 //Adding Body-Parser
 app.use(bodyParser.urlencoded({extended:false}));
@@ -22,6 +23,14 @@ app.use('/owner', ownerRoutes)
 app.use('/house', houseRoutes )
 app.use('/search', searchRoutes)
 
+//Express Sessions
+app.use(session({
+   secret: 'Big Secret',
+   resave: false,
+   saveUninitialized: true
+ }))
+
+
 //Passport
 
 
@@ -29,7 +38,6 @@ app.use('/search', searchRoutes)
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true })
 .then(() => {console.log('MongoDB is connected')})
 .catch((err) => {console.log(err)})
-
 
 
 //Server
