@@ -1,2 +1,1 @@
-# HousesOnRent
-A NestAway Clone
+# Renticorn
