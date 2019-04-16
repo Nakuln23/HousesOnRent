@@ -1,5 +1,5 @@
 {
-  "name": "renticorn",
+  "name": "housesonrent",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nakuln23/Renticorn.git"
+    "url": "git+https://github.com/Nakuln23/HousesOnRent.git"
   },
   "author": "Nakul Nagargade",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Nakuln23/Renticorn/issues"
+    "url": "https://github.com/Nakuln23/HousesOnRent/issues"
   },
-  "homepage": "https://github.com/Nakuln23/Renticorn#readme",
+  "homepage": "https://github.com/Nakuln23/HousesOnRent#readme",
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.4",
