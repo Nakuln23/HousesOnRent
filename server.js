@@ -11,11 +11,16 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 //Importing routes
-
-
+const userRoutes = require('./routes/user');
+const ownerRoutes = require('./routes/owner');
+const houseRoutes = require('./routes/house');
+const searchRoutes = require('./routes/search');
 
 //Express Routes
-
+app.use('/user', userRoutes )
+app.use('/owner', ownerRoutes)
+app.use('/house', houseRoutes )
+app.use('/search', searchRoutes)
 
 //Passport
 

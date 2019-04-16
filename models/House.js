@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const HousesSchema = new Schema ([{
+const HouseSchema = new Schema ([{
     index : {
         type: Number,
         default: 0
@@ -40,5 +40,5 @@ const HousesSchema = new Schema ([{
       
 }])
 
-const Houses = mongoose.model('houses', HousesSchema);
-module.exports = Houses;
+const House = mongoose.model('house', HouseSchema);
+module.exports = House;
