@@ -6,9 +6,12 @@ const HouseSchema = new Schema ([{
         type: Number,
         default: 0
     },
+    name:{
+        type: String
+    },
     price : {
         type: Number,
-        required: true
+        //required: true
     },
     picture : {
         type: String,

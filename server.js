@@ -6,6 +6,7 @@ const keys = require('./config/keys')
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
+const {cloudinaryConfig} = require('./config/cloudinaryConfig')
 
 //Adding Body-Parser
 app.use(bodyParser.urlencoded({extended:false}));
@@ -30,6 +31,8 @@ app.use(session({
    saveUninitialized: true
  }))
 
+ //Cloudinary 
+app.use('*', cloudinaryConfig);
 
 //Passport
 
