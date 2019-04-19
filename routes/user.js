@@ -3,9 +3,23 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs')
 
+//Nodemailer-sendgrid
+
+const nodemailer = require('nodemailer');
+const sendGridTransport = require('nodemailer-sendgrid-transport')
+const {options, mailer} = require('../Middleware/nodemailer')
+
+//@route GET user/test
+//@desc  Testing 
+//@access Public
+
 router.get('/test', (req,res) => {
     res.send("Users are working")
 })
+
+////@route POST user/register
+//@desc  Register User
+//@access Public
 
 router.post('/register', (req,res) => {
     User.findOne({email: req.body.email} , (err, user) => {
@@ -21,24 +35,34 @@ router.post('/register', (req,res) => {
                 password : req.body.password
             })
  
-            
-            bcrypt.genSalt(10, function(err, salt) {
-             bcrypt.hash(newUser.password, salt, function(err, hash) {
-            // Store hash in your password DB.
-              if(err) throw err;
-              else {
-                 newUser.password = hash;
-                 newUser.save((err,user) => {
-                   if (err) {
-                       console.log(err)
-                   } else {
-                       res.json(user)
-                   }
-                 })}
-             })
+             bcrypt.genSalt(10, function(err, salt) {
+             bcrypt.hash(newUser.password, salt)
+             .then(hash => {
+                newUser.password = hash;
+                newUser.save((err,user) => {
+                  if (err) {
+                      console.log(err)
+                  } else {
+                      res.json(user)
+                  }})
             })
-        }
-    }}
- )})
+            .catch(err => {throw err})
+            })
+            
+
+            //Sending email
+            const email = {
+                to: newUser.email,
+                from: 'roger@tacos.com',
+                subject: 'Thanks for registering!',
+                text: 'We hope you are having a great time ',
+                html: '<b>Awesome sauce</b>'
+            };
+
+            mailer.sendMail(email)
+            .then(res => res.json({email:"Email has been send to your mail address"}))
+            .catch(err => console.log(err))
+            
+        }}})})
 
  module.exports = router;
