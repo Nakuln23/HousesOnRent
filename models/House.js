@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Owner = require('./Owner')
+const User = require('./User')
 
 const HouseSchema = new Schema ([{
-    ownerName : {
+    user : {
         _id: {
         type: Schema.Types.ObjectId,
-        ref: Owner
+        ref: User
         },
         name : String 
     },

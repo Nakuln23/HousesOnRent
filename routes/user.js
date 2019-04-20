@@ -22,21 +22,34 @@ router.get('/test', (req,res) => {
 //@desc  Register User
 //@access Public
 
-// router.post("/register", function(req, res){
-//     const newUser = new User({email: req.body.email});
-   
-//     db.USER.register(newUser, req.body.password, req.body.name, function(err, user){
-//         if(err){
-//             return res.json(err)
-//         } else {
-//             if(user) {
-//                 res.status(400).json({email: "Email already exists"})
-//             } else {
-//         passport.authenticate("local")(req, res, function(){
-//            res.json(user); 
-//         })}}
-//     });
-//   });
+router.post('/register', (req,res) => {
+    User.findOne({email: req.body.email} , (err, user) => {
+        if (err) {
+            res.json(err)
+        } else {
+            if(user) {
+             res.status(400).json({email: "Email already exists"})
+            } else {
+                const newUser = new User({
+                name : req.body.name,
+                email : req.body.email,
+                password : req.body.password
+            })
+ 
+             bcrypt.genSalt(10, function(err, salt) {
+             bcrypt.hash(newUser.password, salt)
+             .then(hash => {
+                newUser.password = hash;
+                newUser.save((err,user) => {
+                  if (err) {
+                      console.log(err)
+                  } else {
+                      res.json(user)
+                  }})
+            })
+            .catch(err => {throw err})
+            })
+}}})})
   
 
 
