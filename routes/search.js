@@ -7,16 +7,15 @@ router.get('/test', (req,res) => {
 })
 
 router.post('/city', (req,res)=> {
-    House.find({city: req.body.city} , (err,house) => {
-        if (err) {
-            throw err;
+    House.find({city: req.body.city})
+    .then(house => {
+        if(!house) {
+            res.json({City: "No Houses for your search exists"})
         } else {
-            if(!house) {
-                res.json({City: "No Houses for your search exists"})
-            } else {
-            res.status(200).json(house)
-        }}
-    })    
+        res.status(200).json(house)
+    }})
+    .catch(err => {throw err})
 })
+    
 
 module.exports = router;

@@ -1,7 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Owner = require('./Owner')
 
 const HouseSchema = new Schema ([{
+    ownerName : {
+        _id: {
+        type: Schema.Types.ObjectId,
+        ref: Owner
+        },
+        name : String 
+    },
     index : {
         type: Number,
         default: 0
@@ -18,11 +26,11 @@ const HouseSchema = new Schema ([{
     },
     city :{
         type: String,
-        required: true
+       // required: true
     },
     address: {
         type: String,
-        required: true,
+       // required: true,
     },
     latitude:{
         type: Number,
@@ -30,18 +38,18 @@ const HouseSchema = new Schema ([{
     longitude:{
         type: Number,
     },
-    bedrooms:{
+    bedroom:{
         type: Number,
     },
-    bathrooms:{
+    bathroom:{
         type: Number,
     },
     carSpaces:{
         type: Number,
-    }
-      
+    },
+    
       
 }])
 
-const House = mongoose.model('house', HouseSchema);
+const House = mongoose.model('House', HouseSchema);
 module.exports = House;

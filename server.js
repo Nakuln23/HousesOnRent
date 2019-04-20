@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const {cloudinaryConfig} = require('./config/cloudinaryConfig')
+const LocalStrategy = require("passport-local")
 
 //Adding Body-Parser
 app.use(bodyParser.urlencoded({extended:false}));
@@ -17,6 +18,9 @@ const userRoutes = require('./routes/user');
 const ownerRoutes = require('./routes/owner');
 const houseRoutes = require('./routes/house');
 const searchRoutes = require('./routes/search');
+
+//Importing Models
+const User = require('./models/User');
 
 //Express Routes
 app.use('/user', userRoutes )
@@ -35,7 +39,11 @@ app.use(session({
 app.use('*', cloudinaryConfig);
 
 //Passport
-
+// app.use(passport.initialize());
+// app.use(passport.session());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 //DB Connection
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true })

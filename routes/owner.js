@@ -1,39 +1,47 @@
 //Set up express router
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 
 //Set up models
 const Owner = require('../models/Owner');
 const House = require('../models/House');
 
-//Multer Config
-const {uploader} = require('cloudinary')
-const {multerUploads,dataUri} = require('../Middleware/multer')
-
-
-
 router.get('/test', (req,res) => {
     res.send("Owners are working")
 })
 
-router.post('/profile/upload', multerUploads, (req,res) => {
-    if(req.file) {
-        const file = dataUri(req).content;
-        return uploader.upload(file).then((result) => {
-        const image = result.url
+router.post('/register', (req,res) => {
+    Owner.findOne({email: req.body.email} , (err, owner) => {
+        if (err) {
+            res.json(err)
+        } else {
+            if(owner) {
+             res.status(400).json({email: "Email already exists"})
+            } else {
+                const newOwner = new Owner({
+                name : req.body.name,
+                email : req.body.email,
+                password : req.body.password
+            })
+ 
+             bcrypt.genSalt(10, function(err, salt) {
+             bcrypt.hash(newOwner.password, salt)
+             .then(hash => {
+                newOwner.password = hash;
+                newOwner.save()
+                .then((owner) => {
+                    res.json(owner)
+                })
+                .catch((err)=> {
+                    console.log(err)
+                })
+                 })
+             .catch(err => {throw err})
+            })
+}}})})
 
-        const newHouse = new House ({
-            price :req.body.price,
-            picture : image,
-            city :req.body.city,
-            address : req.body.address
-         })
-        House.create((newHouse))
-        .then((house)=> res.send(house))
-        .catch((err)=> res.send(err))
-        
-        })}
-})
+
 
 
 module.exports = router
