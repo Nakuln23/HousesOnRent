@@ -4,7 +4,7 @@ const sendGridTransport = require('nodemailer-sendgrid-transport');
 // SendGrid api key 
 const options = {
     auth: {
-        api_key: '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'
+        api_key: process.env.SENDGRID_API_KEY
     }
 }
 
