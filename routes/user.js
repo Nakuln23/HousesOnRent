@@ -51,13 +51,24 @@ router.post('/register', (req,res) => {
             .catch(err => {throw err})
             })
 }}})})
+
+//@route POST user/login
+//@desc  Logging User
+//@access Public
   
 router.post('/login',passport.authenticate('local', {
             successRedirect: '/user/test',
             failureRedirect: '/login' }),
            )
 
+//@route POST user/logout
+//@desc  Log out User
+//@access Public
 
+router.get('/logout', (req,res) => {
+    req.logout()
+    res.send("logged out user successfully")
+})
 
             
 
