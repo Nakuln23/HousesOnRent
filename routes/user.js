@@ -4,6 +4,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport')
 
+
 //Nodemailer-sendgrid
 
 const nodemailer = require('nodemailer');
@@ -15,10 +16,10 @@ const {options, mailer} = require('../Middleware/nodemailer')
 //@access Public
 
 router.get('/test', (req,res) => {
-    res.send("Users are working")
+    res.send(req.session)
 })
 
-////@route POST user/register
+//@route POST user/register
 //@desc  Register User
 //@access Public
 
@@ -51,6 +52,11 @@ router.post('/register', (req,res) => {
             })
 }}})})
   
+router.post('/login',passport.authenticate('local', {
+            successRedirect: '/user/test',
+            failureRedirect: '/login' }),
+           )
+
 
 
             

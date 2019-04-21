@@ -7,11 +7,23 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const {cloudinaryConfig} = require('./config/cloudinaryConfig')
-const LocalStrategy = require("passport-local")
+
 
 //Adding Body-Parser
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+
+//Express Sessions
+app.use(session({
+   secret: 'Big Secret',
+   resave: true,
+   saveUninitialized: true
+ }))
+
+//Passport Middleware
+require('./config/passport')(passport)
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Importing routes
 const userRoutes = require('./routes/user');
@@ -21,22 +33,14 @@ const houseRoutes = require('./routes/house');
 app.use('/user', userRoutes )
 app.use('/house', houseRoutes )
 
-//Express Sessions
-app.use(session({
-   secret: 'Big Secret',
-   resave: false,
-   saveUninitialized: true
- }))
-
  //Cloudinary 
 app.use('*', cloudinaryConfig);
 
-//Passport
-// app.use(passport.initialize());
-// app.use(passport.session());
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+//Global Variables
+app.use((req,res,next)=>{
+  res.locals.user = req.user || null;
+  next();
+})
 
 //DB Connection
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true })

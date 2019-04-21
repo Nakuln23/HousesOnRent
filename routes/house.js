@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const House = require('../models/House');
+const loggedIn = require('../Middleware/loggedIn')
 
 //Multer Config
 const {uploader} = require('cloudinary')
@@ -47,7 +48,7 @@ router.get('/:id', (req,res) => {
 //@desc  Creating house info
 //@access Private
 
-router.post('/create', multerUploads, (req,res) => {
+router.post('/create', loggedIn, multerUploads, (req,res) => {
     console.log(req.body.name)            
 
         if(req.file) {
@@ -80,8 +81,8 @@ router.post('/create', multerUploads, (req,res) => {
 //@desc  Update house info
 //@access Private
 
-router.put('/:id',(req,res)=>{
-    House.findByIdAndUpdate({id: req.user.id}, req.body)
+router.put('/:id', loggedIn, (req,res)=>{
+    House.findByIdAndUpdate({id: req.params.id}, req.body)
     .then((house)=> res.json(house))
     .catch((err)=> res.send(err))
 })
@@ -90,8 +91,8 @@ router.put('/:id',(req,res)=>{
 //@desc  Delete house info
 //@access Private
 
-router.delete('/:id',(req,res)=>{
-    House.findByIdAndDelete({id : req.user.id})
+router.delete('/:id', loggedIn, (req,res)=>{
+    House.findByIdAndDelete({id : req.params.id})
     .then(res.send("Details deleted"))
     .catch((err)=> res.send(err))
 })
