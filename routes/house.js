@@ -10,22 +10,25 @@ const {multerUploads,dataUri} = require('../Middleware/multer')
 //@route GET house/test
 //@desc  Testing 
 //@access Public
-
 router.get('/test', (req,res) => {
     res.send("Houses are working")
 })
 
-//@route GET house/:city
+
+
+
+//@route GET house/search/:city
 //@desc  Searching houses a/c to city
 //@access Public
 
-router.post('/:city', (req,res)=> {
-    House.find({city: req.body.city})
+router.get('/search/:city', (req,res)=> {
+    const city = req.params.city
+    House.find({city:city})
     .then(house => {
-        if(!house) {
-            res.json({City: "No Houses for your search exists"})
-        } else {
-        res.status(200).json(house)
+        if (!house) {
+        res.json({error:"Nothing found"})
+    } else {
+        res.json(house)
     }})
     .catch(err => {throw err})
 })
@@ -34,8 +37,8 @@ router.post('/:city', (req,res)=> {
 //@desc  Finding a House by id 
 //@access Public
 
-router.get('/:id', (req,res) => {
-    House.findById({id: req.params.id})
+router.get('/params/:id', (req,res) => {
+    House.findById({_id: req.params.id})
     .then(house => {
         res.send(house)
     })
@@ -44,11 +47,13 @@ router.get('/:id', (req,res) => {
     })
 })
 
+
+
 //@route POST house/create
 //@desc  Creating house info
 //@access Private
 
-router.post('/create', loggedIn, multerUploads, (req,res) => {
+router.post('/create', multerUploads, (req,res) => {
     console.log(req.body.name)            
 
         if(req.file) {
@@ -57,10 +62,10 @@ router.post('/create', loggedIn, multerUploads, (req,res) => {
             const image = result.url
             console.log(req.body.name)            
              const newHouse = new House ({
-                user:{
-                    id: req.user.id,
-                    name: req.user.name
-                },
+                // user:{
+                //     id: req.user.id,
+                //     name: req.user.name
+                // },
                 name : req.body.name,
                 price :req.body.price,
                 picture : image,
@@ -76,22 +81,27 @@ router.post('/create', loggedIn, multerUploads, (req,res) => {
             .catch((err)=> res.json(err))
      })}
 })
+// router.post('/create',(req,res)=>{
+//     console.log(req.body)
+//     res.send(req.body)
+// })
 
-//@route PUT house/:id
+
+//@route PUT house/edit/:id
 //@desc  Update house info
 //@access Private
 
-router.put('/:id', loggedIn, (req,res)=>{
+router.put('/edit/:id', loggedIn, (req,res)=>{
     House.findByIdAndUpdate({id: req.params.id}, req.body)
     .then((house)=> res.json(house))
     .catch((err)=> res.send(err))
 })
 
-//@route DELETE house/:id
+//@route DELETE house/delete/:id
 //@desc  Delete house info
 //@access Private
 
-router.delete('/:id', loggedIn, (req,res)=>{
+router.delete('/delete/:id', loggedIn, (req,res)=>{
     House.findByIdAndDelete({id : req.params.id})
     .then(res.send("Details deleted"))
     .catch((err)=> res.send(err))

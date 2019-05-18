@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors')
 const app = express();
+app.use(cors())
+
 const mongoose = require('mongoose')
-const port = 6000;
+const port = 5000;
 const keys = require('./config/keys')
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -12,7 +15,8 @@ const {cloudinaryConfig} = require('./config/cloudinaryConfig')
 //Adding Body-Parser
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-
+//Cloudinary 
+app.use('*', cloudinaryConfig);
 //Express Sessions
 app.use(session({
    secret: 'Big Secret',
@@ -33,8 +37,7 @@ const houseRoutes = require('./routes/house');
 app.use('/user', userRoutes )
 app.use('/house', houseRoutes )
 
- //Cloudinary 
-app.use('*', cloudinaryConfig);
+ 
 
 //Global Variables
 app.use((req,res,next)=>{

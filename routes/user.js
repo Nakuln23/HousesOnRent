@@ -58,7 +58,7 @@ router.post('/register', (req,res) => {
   
 router.post('/login',passport.authenticate('local', {
             successRedirect: '/user/test',
-            failureRedirect: '/login' }),
+            failureRedirect: '/login', }),
            )
 
 //@route POST user/logout

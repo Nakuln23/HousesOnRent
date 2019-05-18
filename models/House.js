@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 const User = require('./User')
 
 const HouseSchema = new Schema ([{
-    user : {
-        _id: {
-        type: Schema.Types.ObjectId,
-        ref: User
-        },
-        name : String 
-    },
+    // user : {
+    //     _id: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: User
+    //     },
+    //     name : String 
+    // },
     index : {
         type: Number,
         default: 0
@@ -47,6 +47,7 @@ const HouseSchema = new Schema ([{
     carSpaces:{
         type: Number,
     },
+    
     
       
 }])
