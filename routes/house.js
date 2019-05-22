@@ -53,7 +53,7 @@ router.get('/params/:id', (req,res) => {
 //@desc  Creating house info
 //@access Private
 
-router.post('/create', multerUploads, (req,res) => {
+router.post('/create', multerUploads, loggedIn, (req,res) => {
     console.log(req.body.name)            
 
         if(req.file) {
