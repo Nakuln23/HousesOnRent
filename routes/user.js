@@ -19,6 +19,15 @@ router.get('/test', (req,res) => {
     res.send(req.session)
 })
 
+//@route POST user/login
+//@desc  Logging User
+//@access Public
+  
+router.post('/login',passport.authenticate('local', {
+    successRedirect: '/user/test',
+    failureRedirect: '/login', }),
+   )
+
 //@route POST user/register
 //@desc  Register User
 //@access Public
@@ -52,14 +61,6 @@ router.post('/register', (req,res) => {
             })
 }}})})
 
-//@route POST user/login
-//@desc  Logging User
-//@access Public
-  
-router.post('/login',passport.authenticate('local', {
-            successRedirect: '/user/test',
-            failureRedirect: '/login', }),
-           )
 
 //@route POST user/logout
 //@desc  Log out User
@@ -67,7 +68,7 @@ router.post('/login',passport.authenticate('local', {
 
 router.get('/logout', (req,res) => {
     req.logout()
-    res.send("logged out user successfully")
+    res.redirect('/')
 })
 
             

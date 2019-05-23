@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors')
 const app = express();
-app.use(cors())
 
 const mongoose = require('mongoose')
 const port = 5000;
@@ -11,6 +10,7 @@ const passport = require('passport');
 const session = require('express-session');
 const {cloudinaryConfig} = require('./config/cloudinaryConfig')
 
+app.use(cors())
 
 //Adding Body-Parser
 app.use(bodyParser.urlencoded({extended:false}));
