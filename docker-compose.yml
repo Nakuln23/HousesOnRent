@@ -11,7 +11,7 @@ services:
       - mongo
   client:
     container_name: clientapp
-    build: ./
+    build: ./houses-on-frontend
     working_dir: /users/project/client
     command: npm start
     ports:
