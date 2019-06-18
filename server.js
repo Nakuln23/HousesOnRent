@@ -48,7 +48,10 @@ mongoose.connect(keys.mongoURI , { useNewUrlParser: true })
 .then(() => {console.log('MongoDB is connected')})
 .catch((err) => {console.log(err)})
 
-app.use(express.static(path.join(__dirname, "client", "build")))
+if (process.env.NODE.ENV === 'production'){
+  app.use(express.static("client", "build"))
+}
+
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
