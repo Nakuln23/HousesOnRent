@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const House = require('../models/House');
 const loggedIn = require('../Middleware/loggedIn')
+const moment = require('moment')
+
+const today = moment().startOf('day')
+
 
 //Multer Config
 const {uploader} = require('cloudinary')
@@ -13,9 +17,6 @@ const {multerUploads,dataUri} = require('../Middleware/multer')
 router.get('/test', (req,res) => {
     res.send("Houses are working")
 })
-
-
-
 
 //@route GET house/search/:city
 //@desc  Searching houses a/c to city
@@ -47,13 +48,42 @@ router.get('/params/:id', (req,res) => {
     })
 })
 
+//@route GET /house/recenthouses
+//@desc  Finding latest Houses posted by admin 
+//@access Public
 
+router.get('/recenthouses', (req,res)=> {
+    House.find({ createdAt: {
+        $gte: today.toDate(),
+        $lte: moment(today).endOf('year').toDate()
+      }})
+    .then(house => {
+        res.send(house)
+    })
+    .catch(err => {
+        res.send(err)
+    })
+})
+
+//@route GET /house/featuredhouses
+//@desc  Finding featured Houses  
+//@access Public
+
+router.get('/featuredhouses', (req,res)=> {
+    House.find({featured : true})
+    .then((house => {
+        res.status(200).json(house)
+    }))
+    .catch((err) => {
+        res.send(err)
+    })
+})
 
 //@route POST house/create
 //@desc  Creating house info
 //@access Private
 
-router.post('/create', multerUploads, loggedIn, (req,res) => {
+router.post('/create', multerUploads,  (req,res) => {
     console.log(req.body.name)            
 
         if(req.file) {

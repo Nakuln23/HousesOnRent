@@ -37,9 +37,7 @@ const houseRoutes = require('./routes/house');
 app.use('/user', userRoutes )
 app.use('/house', houseRoutes )
 
- 
-
-//Global Variables
+ //Global Variables
 app.use((req,res,next)=>{
   res.locals.user = req.user || null;
   next();
@@ -49,7 +47,6 @@ app.use((req,res,next)=>{
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true })
 .then(() => {console.log('MongoDB is connected')})
 .catch((err) => {console.log(err)})
-
 
 //Server
 app.listen(port, (req,res)=>{

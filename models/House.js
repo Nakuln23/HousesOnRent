@@ -21,6 +21,10 @@ const HouseSchema = new Schema ([{
         type: Number,
         //required: true
     },
+    featured : {
+        type : Boolean,
+        default  : false
+    },
     picture : {
         type: String,
     },
@@ -47,9 +51,11 @@ const HouseSchema = new Schema ([{
     carSpaces:{
         type: Number,
     },
+    createdAt: {
+        type: Date,
+        default : Date.now()
+    }
     
-    
-      
 }])
 
 const House = mongoose.model('House', HouseSchema);
