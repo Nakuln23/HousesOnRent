@@ -1,0 +1,43 @@
+.masthead {
+  height: 100vh;
+  min-height: 500px;
+  background-image: url('https://source.unsplash.com/BtbjCFUvBXs/1920x1080');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.search-slt{
+  
+    width: 50%;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    height: calc(3rem + 2px) !important;
+    border-radius:0;
+}
+
+#rounded-btn {
+	border-radius: 40px;
+}
+
+/* .card {
+   width: 19.5rem;
+   height: 12rem;
+} */
+
+#card-image {
+	background-image: url('https://cdn.rentberry.com/static/rentberry/browser/assets/images/propertyTypes/discoverApartments/laptop/New-York-NY.jpg?v=1554973749963?v=1554973369753');
+}   
+
+#info {
+	margin-top: 5rem;
+	margin-bottom: 5rem;
+} 
+
+.mapping-cards{
+  margin-top: 20px;
+}
