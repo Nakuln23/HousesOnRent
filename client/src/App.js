@@ -1,61 +1,38 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter as Router, Route, Switch,Redirect} from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
-import Landing from './components/layout/Landing';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
-import Footer from './components/layout/Footer';
-import Search from './components/search/Search';
-import House from './components/house/House';
-function PrivateRoute({ component: Component, authed, ...rest }) {
-  console.log("private route", Component, authed)
+import './index.css';
+import "./assests/css/bootstrap.min.css"
+import "./assests/css/animate.css";
+//import "./assests/css/font-awesome.min.css";
+import "./assests/css/magnific-popup.css";
+import Navbar from './components/Navbar';
+// import "./assests/js/jquery-3.2.1.min.js"
+// import "./assests/css/owl.carousel.css";
+// import "./assests/js/owl.carousel.min.js";
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import LandingPage from './views/landingPage/Index';
+import SearchPage from './views/searchpage';
+import HousePage from './views/housePage';
+import Footer from './components/Footer';
+import Login from './views/auth/Login';
+import Register from './views/auth/Register';
+
+
+function App() {
   return (
-    <Route
-      {...rest}
-      render={(props) => authed === true
-           ? <Component {...props} /> : <Redirect to={{ pathname: '/login',
-           state: { from: props.location } }} />}
-    />
-  )
-}
-
-class App extends React.Component{
-  state={
-    authed :false 
-  }
-  loginHandler = ()=> {
-    this.setState({
-      authed: true
-    })
-  }
-  registerHandler = ()=> {
-    this.setState({
-      authed: true
-    })
-  }
-  logoutHandler=()=>{
-    this.setState({
-      authed: false
-    })
-  }
-  render(){
-    return(
-      <Router>
-      <div>
-       <Navbar authed={this.state.authed} logoutHandler={this.logoutHandler}/>
-       <Switch>
-       <Route exact path="/" component={Landing} />
-       <Route  path='/register' render={()=> <Register  authed={this.state.authed} registerHandler={this.registerHandler}/>}/>
-        <Route  path='/login' render={()=> <Login authed={this.state.authed} loginHandler={this.loginHandler} />}/>
-        <Route exact path = '/search/:city' component={Search}/>
-        <PrivateRoute exact authed={this.state.authed} path='/params/:house_id' component={House}/>
-        </Switch>
-       <Footer/>
-      </div>
+    <>
+    <Router>
+      <Navbar/>
+      <Route exact path="/" component = {LandingPage}/>
+      <Route exact path="/search/:city" component = {SearchPage}/>
+      <Route exact path="/house/:house_id" component = {HousePage}/>
+      <Route exact path="/user/register" component = {Register}/>
+      <Route exact path="/user/login" component = {Login}/>
+      <Footer/>
     </Router>
-    )
-  }
+    
+    </>
+  );
 }
 
-export default App
+export default App;
